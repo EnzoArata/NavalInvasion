@@ -21,7 +21,7 @@ public:
   BaseEntity* selectedEntity;
   PlayerEntity* playerEntity;
   std::vector<EnemyEntity*> Enemies;
-  std::vector<AllySmall*> Allies;
+  std::vector<PlayerEntity*> Allies;
   //FlyingEntity381* selectedFlyingEntity;
   int selectedEntityIndex;
 

@@ -47,7 +47,7 @@ public:
 	virtual void stop();
 	void UpdateHealth(float currentHealth);
 	void UpdateInfo(BaseEntity* ent);
-
+	void deathScreen();
 	OgreBites::InputContext mInputContext;
 	OgreBites::SdkTrayManager* mTrayMgr;
 	Ogre::OverlaySystem* mOverlaySystem;
@@ -56,6 +56,7 @@ public:
 	OgreBites::Label* LabelHeading;
 	OgreBites::Label* LabelPosition;
 	OgreBites::ProgressBar * pbar;
+	bool isDeathScreen;
 };
 
 #endif /* INC_UIMGR_H_ */

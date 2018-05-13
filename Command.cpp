@@ -48,6 +48,7 @@ MoveTo::~MoveTo() {
 
 void MoveTo::init(){
 
+	std::cout << "MoveTo created" << std::endl;
 }
 
 void MoveTo::tick(float dt){
@@ -163,6 +164,21 @@ void Escort::tick(float dt)
 		entity->desiredSpeed = entity->speed = target->speed;
 		entity->desiredHeading = target->heading;
 	}
+	for(int i =0; i< entity->engine->entityMgr->entities.size();i++)
+	{
+			if(entity->position.squaredDistance(entity->engine->entityMgr->entities[i]->position) <= 700*700)
+			{
+				if(entity->team != entity->engine->entityMgr->entities[i]->team &&  entity->engine->entityMgr->entities[i]->team != 0)
+				{
+					Command * fireo = new FireBarrage(entity, entity->engine->entityMgr->entities[i], entity->shellSpread);
+					Command * escorto = new Escort(entity, entity->engine->entityMgr->playerEntity, Ogre::Vector3(-200, 0, 200));
+					entity->desiredSpeed = 0;
+					entity->aspects[3]->insertCommand(fireo);
+					//entity->aspects[3]->addCommand(escorto);
+					break;
+				}
+			}
+	}
 
 }
 
@@ -176,11 +192,12 @@ Escort::~Escort()
 
 }
 
-FireBarrage::FireBarrage(BaseEntity* ent, BaseEntity* targetEnt)
+FireBarrage::FireBarrage(BaseEntity* ent, BaseEntity* targetEnt, int count)
 :Command(ent, BarrageType)
 {
 	target = targetEnt;
 	timer = 5;
+	bullets = count;
 }
 
 FireBarrage::~FireBarrage()
@@ -197,19 +214,29 @@ void FireBarrage::tick(float dt)
 {
 
 	timer -= dt;
-	float distance = entity->position.distance(target->position);
-	if (distance <= 250000/30)
+	float distance = entity->position.squaredDistance(target->position);
+	Ogre::Vector3 diff = target->position - entity->position;
+	entity->desiredHeading =( std::atan2(diff.z, diff.x)* 180/3.14);
+	if (distance <= (500*500))
 	{
-		std::cout << "enzo no" << std::endl;
+		//std::cout << "enzo no" << std::endl;
+
+		entity->desiredSpeed = 0;
 		if (timer < 0)
 		{
-			std::cout << "yo" << std::endl;
+
+			//std::cout << "yo" << std::endl;
 			Ogre::Vector3 offset;
 			offset.x = Ogre::Math::RangeRandom(0, 150);
 			offset.y = 0;
 			offset.z = Ogre::Math::RangeRandom(0, 150);
 			entity->engine->entityMgr->CreateEntityOfTypeAtPosition(ShellEnt, (PlayerEntity*)entity, target->position);
-			entity->engine->entityMgr->CreateEntityOfTypeAtPosition(ShellEnt, (PlayerEntity*)entity, target->position + offset);				entity->engine->entityMgr->CreateEntityOfTypeAtPosition(ShellEnt, (PlayerEntity*)entity, target->position - offset);
+			for(int i=1; i<bullets; i++)
+			{
+				offset.x = Ogre::Math::RangeRandom(-150, 150);
+				offset.z = Ogre::Math::RangeRandom(-150, 150);
+				entity->engine->entityMgr->CreateEntityOfTypeAtPosition(ShellEnt, (PlayerEntity*)entity, target->position + offset);
+			}
 			timer = 5;
 		}
 
@@ -217,8 +244,8 @@ void FireBarrage::tick(float dt)
 	}
 	else
 	{
-		Ogre::Vector3 loc = entity->position;
-		if (loc.x < target->position.x)
+		//Ogre::Vector3 loc = entity->position;
+		/*if (loc.x < target->position.x)
 		{
 			loc.x += 300;
 		}
@@ -237,16 +264,77 @@ void FireBarrage::tick(float dt)
 		Command * newPos = new MoveTo(entity, loc);
 		Command * newFire = new FireBarrage(entity, target);
 		entity->aspects[3]->setCommand(newPos);
-		entity->aspects[3]->addCommand(newFire);
+		entity->aspects[3]->addCommand(newFire);*/
+		entity->desiredSpeed = entity->maxSpeed;
 	}
+	this->done();
 
 }
 
 bool FireBarrage::done()
 {
-	return false;
+	if(target->isAlive)
+		return false;
+	else
+		return true;
 }
 
+Patrol::Patrol(BaseEntity* ent, Ogre::Vector3 location, Ogre::Vector3 location2, float range)
+:Command(ent, PatrolType)
+{
+	pointA = location;
+	pointB = location2;
+	distance = range;
+	MOVE_DISTANCE_THRESHOLD = 25;
+	//targetOffset->_getDerivedPosition()
+
+}
+Patrol::~Patrol()
+{
+
+}
+
+void Patrol::init(){
+
+
+}
+void Patrol::tick(float dt){
+
+	Ogre::Vector3 diff = pointA - entity->position;
+	std::cout << "MoveTo Ticking....." << std::endl;
+	entity->desiredHeading =( std::atan2(diff.z, diff.x)* 180/3.14);
+	entity->desiredSpeed = entity->maxSpeed/4;
+	for(int i =0; i< entity->engine->entityMgr->entities.size();i++)
+	{
+		if(entity->position.squaredDistance(entity->engine->entityMgr->entities[i]->position) <= distance*distance)
+		{
+			if(entity->team != entity->engine->entityMgr->entities[i]->team &&  entity->engine->entityMgr->entities[i]->team != 0)
+			{
+				Command * fireo = new FireBarrage(entity, entity->engine->entityMgr->entities[i], entity->shellSpread);
+				Command * patrolo = new Patrol(entity, pointA,pointB,500);
+				entity->desiredSpeed = 0;
+				entity->aspects[3]->setCommand(fireo);
+				entity->aspects[3]->addCommand(patrolo);
+				break;
+			}
+		}
+	}
+	this->done();
+
+}
+bool Patrol::done(){
+	if (entity->position.squaredDistance(pointA) <= MOVE_DISTANCE_THRESHOLD*MOVE_DISTANCE_THRESHOLD)
+	{
+		Ogre::Vector3 temp = pointA;
+		pointA = pointB;
+		pointB = temp;
+		entity->desiredSpeed = 0;
+		//entity->speed = 0;
+		return true;
+	}
+
+	return false;
+}
 
 
 

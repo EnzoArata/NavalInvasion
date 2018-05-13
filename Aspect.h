@@ -21,6 +21,8 @@ public:
 
   virtual void setCommand(Command *c);
 
+  virtual void insertCommand(Command *c);
+
 
 protected:
 

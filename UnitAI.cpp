@@ -41,6 +41,10 @@ void UnitAI::setCommand(Command *c){
 }
 
 void UnitAI::addCommand(Command *c){
-	std::cout << "here" << std::endl;
 	commands.push_back(c);
+}
+
+void UnitAI::insertCommand(Command *c)
+{
+	commands.push_front(c);
 }

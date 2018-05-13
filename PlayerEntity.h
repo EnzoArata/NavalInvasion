@@ -25,6 +25,7 @@ public:
 	virtual ~PlayerEntity();
 
 	float currentHealth;
+
 	Ogre::Node* CameraGimbal;
 	//bool isSelected;
 	//float desiredHeading, desiredSpeed;
@@ -62,6 +63,14 @@ public:
 	AllySmall(Engine *engine, Ogre::Vector3 pos, int identity);
 	void Init();
 	virtual ~AllySmall();
+
+};
+
+class AllyCarrier: public PlayerEntity {
+public:
+	AllyCarrier(Engine *engine, Ogre::Vector3 pos, int identity);
+	void Init();
+	virtual ~AllyCarrier();
 
 };
 

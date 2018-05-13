@@ -24,6 +24,7 @@ public:
 	void Tick(float dt);
 	void setCommand(Command *c);
 	void virtual addCommand(Command *c);
+	void insertCommand(Command *c);
 
 	BaseEntity* unit;
 

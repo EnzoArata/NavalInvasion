@@ -11,7 +11,8 @@ ProjectileEntity::ProjectileEntity(Engine *engine, PlayerEntity *dad, Ogre::Vect
 	:BaseEntity(engine, dad->position, identity)	{
 	name = "Projectile";
 	parent = dad;
-	team = dad->team;
+	team = 0;
+	damage = parent->damage;
 	// TODO Auto-generated constructor stub
 
 }
@@ -26,6 +27,8 @@ void ProjectileEntity::Init(){
 	aspects.push_back((Aspect*)renderable);
 	ShellAspect * ShellPhx = new ShellAspect(this, myTarget);
 	aspects.push_back((Aspect*)ShellPhx);
+
+	//this->soundFile = "data/watercraft/sounds/explosion.wav";
 
 	this->sceneNode->scale(0.02,0.02,0.02);
 

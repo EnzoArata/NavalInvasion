@@ -14,14 +14,15 @@ ShellAspect::ShellAspect(BaseEntity *ent, Ogre::Vector3 target) : Aspect(ent)
 	entity->speed = 500;
 	originalPosition = entity->position;
 	angle = 0.5*Ogre::Degree(Ogre::Math::ASin(30*target.distance(entity->position)/(entity->speed*entity->speed)));
-	std::cout<< "------------------" << std::endl << angle << std::endl;
-	std::cout<< target.distance(entity->position) << std::endl;
+	//std::cout<< "------------------" << std::endl << angle << std::endl;
+	//std::cout<< target.distance(entity->position) << std::endl;
 	//std::cout<< myTarget.x << std::endl;
 
 
 	Ogre::Vector3 diff = target - entity->position;
 	entity->heading =( std::atan2(diff.z, diff.x)* 180/3.14);
 	time = 0;
+
 }
 
 ShellAspect::~ShellAspect()
@@ -35,8 +36,8 @@ void ShellAspect::Tick(float dt)
 	time += dt;
 	entity->velocity.y = entity->speed * Ogre::Math::Sin(angle);
 	entity->velocity.x = entity->speed * Ogre::Math::Cos(angle);
-	std::cout << "INitial X velocity" << entity->velocity.x << std::endl;
-	std::cout << "INitial Y velocity" << entity->velocity.y << std::endl;
+	//std::cout << "INitial X velocity" << entity->velocity.x << std::endl;
+	//std::cout << "INitial Y velocity" << entity->velocity.y << std::endl;
 
 	  //adjacent/hyp
 	entity->velocity.z = Ogre::Math::Sin(Ogre::Degree(entity->heading)) * entity->velocity.x;

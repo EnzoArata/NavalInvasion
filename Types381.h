@@ -8,6 +8,7 @@ enum EntityTypes {
 	EnemyEnt,
 	PlayerEnt,
 	AllySmallEnt,
+	AllyCarrierEnt,
 /*	DDG51Type,
 	CarrierType,
 	SpeedBoatType,
@@ -23,6 +24,7 @@ enum COMMAND_TYPE {
 	Clean,
 	EscortType,
 	BarrageType,
+	PatrolType,
 };
 
 

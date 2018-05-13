@@ -18,7 +18,7 @@ UiMgr::UiMgr(Engine* eng): Mgr(eng){
 	// Initialize the OverlaySystem (changed for Ogre 1.9)
 	    mOverlaySystem = new Ogre::OverlaySystem();
 	    engine->gfxMgr->mSceneMgr->addRenderQueueListener(mOverlaySystem);
-
+	    isDeathScreen = false;
 	    //Ogre::WindowEventUtilities::addWindowEventListener(engine->gfxMgr->ogreRenderWindow, this);
 }
 
@@ -51,7 +51,7 @@ void UiMgr::UpdateInfo(BaseEntity* ent){
 void UiMgr::LoadLevel(){
 
 	mTrayMgr->showBackdrop("NAVALSTARTMENU");
-	mTrayMgr->createLabel(OgreBites::TL_CENTER, "MenuText", "Alpha_0.053 ", 300);
+	mTrayMgr->createLabel(OgreBites::TL_CENTER, "MenuText", "Beta_0.69 ", 300);
 	mTrayMgr->createButton(OgreBites::TL_CENTER, "startButton", "Start Game!");
 	mTrayMgr->createButton(OgreBites::TL_CENTER, "quitButton", "Quit Game");
 
@@ -62,15 +62,15 @@ void UiMgr::LoadLevel(){
 	*/
 }
 void UiMgr::LoadLevel1(){
-	mTrayMgr->createButton(OgreBites::TL_TOPLEFT, "MyButton", "Spawn Boat!");
+	//mTrayMgr->createButton(OgreBites::TL_TOPLEFT, "MyButton", "Spawn Boat!");
 
-	Ogre::StringVector options;
+	/*Ogre::StringVector options;
 	options.push_back("Select Ship");
 	options.push_back("Spawn Rock");
 	options.push_back("Spawn Another Ship");
 	options.push_back("Spawn Enemy");
 	mTrayMgr->createLongSelectMenu(OgreBites::TL_TOPRIGHT, "MyMenu", "Menu", 300, 4,options);
-
+	*/
 	mTrayMgr->showBackdrop("ECSLENT/UI");
 
 	LabelName = mTrayMgr->createLabel(OgreBites::TL_BOTTOMLEFT,"MyName","",250);
@@ -85,6 +85,18 @@ void UiMgr::LoadLevel1(){
 
 void UiMgr::Tick(float dt){
 	mTrayMgr->refreshCursor();
+}
+
+void UiMgr::deathScreen(){
+	if(!isDeathScreen)
+	{
+		mTrayMgr->showBackdrop("NAVALDEATHMENU");
+		mTrayMgr->createButton(OgreBites::TL_CENTER, "quitButton2", "Quit Game");
+		isDeathScreen = true;
+		engine->entityMgr->playerEntity->playSound = false;
+	}
+
+
 }
 
 void UiMgr::windowResized(Ogre::RenderWindow* rw){
@@ -154,6 +166,13 @@ void UiMgr::buttonHit(OgreBites::Button *b){
     	engine->keepRunning = false;
     	return;
    }
+
+    if(b->getName()=="quitButton2")
+      {
+       	std::cout << "quit button pressed" << std::endl;
+       	engine->keepRunning = false;
+       	return;
+      }
 
 }
 

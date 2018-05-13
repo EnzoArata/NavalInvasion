@@ -109,7 +109,7 @@ void SoundMgr::initialize(void){
                 this->loadStartBackground();
         }
 
-        
+	//sid++;
         initWatercraftSounds();
   
         //filename = "data/watercraft/sounds/explosion.wav";
@@ -343,10 +343,10 @@ bool SoundMgr::playExplosionSound(FastEcslent::EntityType et, OgreGFX::GFXNode *
         setSoundPosition(sourceInfo[sourceIndex].source, pos);
         
         return true;
-}
+}*/
 
-bool SoundMgr::playExplosionSound(OgreGFX::GFXNode *gfxNode){
-        Ogre::Vector3 pos = gfxNode->node->getPosition();
+bool SoundMgr::playExplosionSound(BaseEntity *ent){
+        Ogre::Vector3 pos = ent->position;
         
         return false;
 
@@ -355,7 +355,7 @@ bool SoundMgr::playExplosionSound(OgreGFX::GFXNode *gfxNode){
         }
         else
             return false;
-}*/
+}
 
 void SoundMgr::releaseLevel(void){
 	// release stuff loaded for this level

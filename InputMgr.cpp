@@ -321,7 +321,9 @@ void InputMgr::positionSelection(const OIS::MouseEvent& me) {
 	const OIS::MouseState &ms = mMouse->getMouseState();
 	Ogre::Ray mouseRay = engine->gfxMgr->mCamera->getCameraToViewportRay(ms.X.abs/(float) ms.width, ms.Y.abs/(float)ms.height);
 	std::pair<bool, float> result = mouseRay.intersects(engine->gfxMgr->oceanSurface);
+	std::cout << "Mouse pressed wow" << std::endl;
 	if(result.first){
+
 		Ogre::Vector3 posUnderMouse = mouseRay.getPoint(result.second);
 
 		Command * Move = new MoveTo(engine->entityMgr->playerEntity,posUnderMouse);
@@ -349,6 +351,7 @@ void InputMgr::fireAt(const OIS::MouseEvent &me){
 	Ogre::Vector3 posUnderMouse;
 	Ogre::Ray mouseRay = engine->gfxMgr->mCamera->getCameraToViewportRay(ms.X.abs/(float) ms.width, ms.Y.abs/(float)ms.height);
 	std::pair<bool, float> result = mouseRay.intersects(engine->gfxMgr->oceanSurface);
+	std::cout << mouseRay.getPoint(result.second) << std::endl;
 	if(result.first){
 		posUnderMouse = mouseRay.getPoint(result.second);
 		float dist = posUnderMouse.distance(engine->entityMgr->playerEntity->position);

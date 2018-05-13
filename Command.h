@@ -89,7 +89,7 @@ public:
 class FireBarrage: public Command
 {
 public:
-	FireBarrage(BaseEntity* ent, BaseEntity* targetEnt);
+	FireBarrage(BaseEntity* ent, BaseEntity* targetEnt, int count);
 	void init();
 	void tick(float dt);
 	bool done();
@@ -97,6 +97,27 @@ public:
 
 	BaseEntity* target;
 	float timer;
+	int bullets;
+};
+
+class Patrol: public Command {
+
+public:
+	Patrol(BaseEntity* ent, Ogre::Vector3 location, Ogre::Vector3 location2, float range);
+	~Patrol();
+
+	void init();
+	void tick(float dt);
+	bool done();
+
+	Ogre::Vector3 pointA;
+	Ogre::Vector3 pointB;
+	float distance;
+
+	float MOVE_DISTANCE_THRESHOLD;
+
+
+
 };
 
 

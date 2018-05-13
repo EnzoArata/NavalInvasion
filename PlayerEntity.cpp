@@ -22,6 +22,7 @@ PlayerEntity::PlayerEntity(Engine *engine, Ogre::Vector3 pos, int ident)
 	collisionRadius = 20;
 	currentHealth = 100;
 	CameraGimbal = 0;
+	damage = 20;
 	team = 1;
 	/*UnitAI * AI = new UnitAI(this);
 	aspects.push_back((Aspect*)AI);*/
@@ -49,6 +50,7 @@ void PlayerEntity::Init(){
 	CameraGimbal = sceneNode->createChild(position+Ogre::Vector3(-500,200,0));
 
 	this->soundFile = "Boat-Sound.wav";
+	playSound = true;
 
 
 
@@ -103,6 +105,11 @@ AllySmall::AllySmall(Engine *engine, Ogre::Vector3 pos, int ident):
 		this->maxSpeed = 300.0f;//meters per second...
 		this->acceleration = 35.0f; // fast
 		this->turnRate = 50.0f;
+		team =1;
+		currentHealth = 40;
+		damage = 15;
+		shellSpread =2;
+
 
 		std::cout << "Created: " << this->name << std::endl;
 }
@@ -123,6 +130,40 @@ void AllySmall::Init()
 }
 
 AllySmall::~AllySmall(){
+
+}
+
+AllyCarrier::AllyCarrier(Engine *engine, Ogre::Vector3 pos, int ident):
+		PlayerEntity(engine, pos, ident){
+
+	meshfilename = "cvn68.mesh";
+		entityType = EnemyEnt;
+		this->minSpeed = 0;
+		this->maxSpeed = 300.0f;//meters per second...
+		this->acceleration = 35.0f; // fast
+		this->turnRate = 100.0f;
+		team =1;
+		currentHealth = 150;
+
+		std::cout << "Created: " << this->name << std::endl;
+}
+
+void AllyCarrier::Init()
+{
+
+	BaseEntity::Init();
+	Physics2D* phx = new Physics2D(this);
+	aspects.push_back((Aspect*) phx);
+	Renderable * renderable = new Renderable(this);
+	aspects.push_back((Aspect*)renderable);
+	CollisionAspect * collision = new CollisionAspect(this);
+	aspects.push_back((Aspect*)collision);
+	UnitAI * AI = new UnitAI(this);
+	aspects.push_back((Aspect*)AI);
+	engine->entityMgr->Allies.push_back(this);
+}
+
+AllyCarrier::~AllyCarrier(){
 
 }
 

@@ -34,7 +34,7 @@ public:
 	float acceleration, turnRate;
 	float minSpeed, maxSpeed;
 	Ogre::Vector3 spawnLocation;
-
+	float damage;
 	float collisionRadius;
 
 	//dynamic data
@@ -51,6 +51,7 @@ public:
 
 	float desiredHeading, desiredSpeed;
 	float heading, speed;
+	int shellSpread;
 
 	EntityTypes entityType;
 

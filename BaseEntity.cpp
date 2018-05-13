@@ -41,6 +41,8 @@ BaseEntity::BaseEntity(Engine *engine, Ogre::Vector3 pos, int ident){
 	parent = 0;
 	team = 0;
 	isAlive = true;
+	playSound = false;
+	shellSpread =0;
 
 }
 
@@ -71,6 +73,7 @@ void BaseEntity::Tick(float dt){
 
 void BaseEntity::Destroy(){
 	isAlive = false;
+	playSound = true;
 	//aspects.clear;
 	position.y -= 1000;
 	this->sceneNode->setPosition(0, -1000 ,0);
@@ -83,6 +86,7 @@ Rock::Rock(Engine *engine, Ogre::Vector3 pos, int ident):
 	meshfilename = "cube.mesh";
 	entityType = RockEnt;
 	collisionRadius = 100;
+	damage = 20;
 	//this->minSpeed = 0;
 	//this->maxSpeed = 16.0f;//meters per second...
 	//this->acceleration = 5.0f; // fast

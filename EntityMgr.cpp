@@ -74,8 +74,11 @@ void EntityMgr::CreateEntityOfTypeAtPosition(EntityTypes entType, Ogre::Vector3 
 		ent = (EnemyEntity *) ( new Enemy(engine, pos, count++));
 		break;
 	case AllySmallEnt:
-			ent = (PlayerEntity*) ( new AllySmall(engine, pos, count++));
-			break;
+		ent = (PlayerEntity*) ( new AllySmall(engine, pos, count++));
+		break;
+	case AllyCarrierEnt:
+		ent = (PlayerEntity*) ( new AllyCarrier(engine, pos, count++));
+		break;
 	default:
 		ent = (BaseEntity *) ( new Rock(engine, pos, count++));
 		break;

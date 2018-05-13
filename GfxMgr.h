@@ -10,6 +10,9 @@
 
 #include <OgreRoot.h>
 #include <OgreWindowEventUtilities.h>
+#include <Terrain/OgreTerrain.h>
+#include <Terrain/OgreTerrainGroup.h>
+
 
 
 #include <Mgr.h>
@@ -35,6 +38,16 @@ public:
 	Ogre::Plane oceanSurface;
 	Ogre::Plane oceanFloor;
 	void MakeSky();
+
+	void defineTerrain(long x, long y);
+	void initBlendMaps(Ogre::Terrain* terrain);
+	void configureTerrainDefaults(Ogre::Light* light);
+
+	bool mTerrainsImported;
+	Ogre::TerrainGroup* mTerrainGroup;
+	Ogre::TerrainGlobalOptions* mTerrainGlobals;
+
+	//OgreBites::Label* mInfoLabel;
 
 	//Ogre related stuff
 	Ogre::Root* mRoot;

@@ -107,7 +107,7 @@ namespace OgreSND {
                 void attachSelectedNodeToSoundIndex(BaseEntity* ent, unsigned int index);
                 //bool playEntityBornSound(FastEcslent::EntityType et, OgreGFX::GFXNode *gfxNode);
                 //bool playExplosionSound(FastEcslent::EntityType et, OgreGFX::GFXNode *gfxNode);
-                //bool playExplosionSound(OgreGFX::GFXNode *gfxNode);
+                bool playExplosionSound(BaseEntity* ent);
                 bool playSelectionSound(BaseEntity et);
                 
 		//specific for sound managers everywhere
