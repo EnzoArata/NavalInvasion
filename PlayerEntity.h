@@ -25,6 +25,7 @@ public:
 	PlayerEntity(Engine *engine, Ogre::Vector3 pos, int identity);
 	virtual ~PlayerEntity();
 
+	float currentHealth;
 	//bool isSelected;
 	//float desiredHeading, desiredSpeed;
 	//float heading, speed;

@@ -11,6 +11,7 @@
 #include <EntityMgr.h>
 #include <GfxMgr.h>
 #include "UnitAI.h"
+#include <UiMgr.h>
 
 
 
@@ -19,6 +20,7 @@ PlayerEntity::PlayerEntity(Engine *engine, Ogre::Vector3 pos, int ident)
 	:BaseEntity(engine, pos, ident)	{
 	name = "PlayerEntity";//meshfname + IntToString(identity);
 	collisionRadius = 20;
+	currentHealth = 100;
 	/*UnitAI * AI = new UnitAI(this);
 	aspects.push_back((Aspect*)AI);*/
 
@@ -57,6 +59,8 @@ void PlayerEntity::stopShip(){
 void PlayerEntity::respawn(){
 	position = spawnLocation;
 	desiredHeading = heading = 0;
+	currentHealth =- 10;
+	engine->uiMgr->pbar->setProgress(currentHealth);
 }
 
 /*void PlayerEntity::Tick(float dt)

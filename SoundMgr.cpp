@@ -108,7 +108,7 @@ void SoundMgr::initialize(void){
                 backgroundMusicSource = sourceInfo[sid].source;
                 this->loadStartBackground();
         }
-	std::cout << "background music loaded" << std::endl;
+
         
         initWatercraftSounds();
   
@@ -281,7 +281,7 @@ void SoundMgr::tick(double dtime){
 
 bool SoundMgr::playSelectionSound(BaseEntity et){
         Ogre::Vector3 pos = et.position;
-        
+        std::cout << "Sound playing on " << et.name << std::endl;
         if (et.soundFile == ""){
             std::cout << "There is no registered selection sounds for this entity type" << std::endl;
             return false; //there is no sound to play
@@ -767,7 +767,7 @@ bool SoundMgr::loadAudio(std::string filename, int index){
 bool SoundMgr::loadStartBackground(){
 	//WaveInfo *wave;
 
-
+	std::cout << "loading background music" << std::endl;
 	alGenSources((ALuint)1, &this->backgroundMusicSource);
 	printError("Cannot generate source with id 1");
 

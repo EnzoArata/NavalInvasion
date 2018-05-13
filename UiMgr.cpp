@@ -43,6 +43,7 @@ void UiMgr::stop(){
 void UiMgr::LoadLevel(){
 
 	mTrayMgr->showBackdrop("NAVALSTART");
+	mTrayMgr->createLabel(OgreBites::TL_CENTER, "MenuText", "Naval Invasion Version 0.01 ", 300);
 	mTrayMgr->createButton(OgreBites::TL_CENTER, "startButton", "Start Game!");
 	mTrayMgr->createButton(OgreBites::TL_CENTER, "quitButton", "Quit Game");
 
@@ -64,7 +65,7 @@ void UiMgr::LoadLevel1(){
 
 	mTrayMgr->showBackdrop("ECSLENT/UI");
 
-	mLabel = mTrayMgr->createLabel(OgreBites::TL_LEFT,"MyLabel","Label!",250);
+	//mLabel = mTrayMgr->createLabel(OgreBites::TL_LEFT,"MyLabel","Label!",250);
 
 	//OgreBites::ProgressBar * pbar;
 	pbar = mTrayMgr->createProgressBar(OgreBites::TL_TOP,"HealthBar", "Health", 300, 200);
@@ -131,6 +132,7 @@ void UiMgr::buttonHit(OgreBites::Button *b){
 		//mTrayMgr->clearTray(OgreBites::TL_BOTTOM);
 		mTrayMgr->destroyWidget("startButton");
 		mTrayMgr->destroyWidget("quitButton");
+		mTrayMgr->destroyWidget("MenuText");
     	engine->gameMgr->LoadLevel1();
     	std::cout << "start button pressed" << std::endl;
     	return;

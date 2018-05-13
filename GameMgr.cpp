@@ -84,6 +84,7 @@ void GameMgr::MakeEntities(){
 		pos.x += 500;
 	engine->entityMgr->CreateEntityOfTypeAtPosition(EnemyEnt, pos);
 		pos.x += 500;
+
 	Command * escorto = new Escort(engine->entityMgr->Enemies[0], engine->entityMgr->playerEntity,Ogre::Vector3(200, 0, 0));
 	engine->entityMgr->Enemies[0]->aspects[3]->setCommand(escorto);
 	escorto = new Escort(engine->entityMgr->Enemies[1], engine->entityMgr->playerEntity,Ogre::Vector3(-200, 0, 0));

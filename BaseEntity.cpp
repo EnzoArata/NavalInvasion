@@ -22,7 +22,7 @@ BaseEntity::BaseEntity(Engine *engine, Ogre::Vector3 pos, int ident){
 	meshfilename = std::string();
 	position = spawnLocation = pos;
 	velocity = Ogre::Vector3(0, 0, 0);
-	identity = ident;
+	identity = audioID = ident;
 	isSelected = false;
 	this->playSound = false;
 
@@ -53,7 +53,7 @@ void BaseEntity::Init(){
 	sceneNode->attachObject(ogreEntity);
 	this->soundFile = "Boat-Sound.wav";
 
-	this->audioID = 0;
+	//this->audioID = 0;
 }
 
 void BaseEntity::Tick(float dt){
