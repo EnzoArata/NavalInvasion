@@ -27,6 +27,7 @@ public:
 	int levelSelect;
 	Ogre::SceneNode *cameraNode;
 	Ogre::SceneNode* cameraPitchNode;
+	float gravity;
 
 };
 

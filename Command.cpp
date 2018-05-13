@@ -9,6 +9,8 @@
 //#include <UnitAI.h>
 #include <BaseEntity.h>
 #include <math.h>
+#include <EntityMgr.h>
+#include <Engine.h>
 
 Command::Command(BaseEntity* ent, COMMAND_TYPE ct) {
 	// TODO Auto-generated constructor stub
@@ -173,5 +175,85 @@ Escort::~Escort()
 {
 
 }
+
+FireBarrage::FireBarrage(BaseEntity* ent, BaseEntity* targetEnt)
+:Command(ent, BarrageType)
+{
+	target = targetEnt;
+	timer = 5;
+}
+
+FireBarrage::~FireBarrage()
+{
+
+}
+
+void FireBarrage::init()
+{
+
+}
+
+void FireBarrage::tick(float dt)
+{
+
+	timer -= dt;
+	float distance = entity->position.distance(target->position);
+	if (distance <= 250000/30)
+	{
+		std::cout << "enzo no" << std::endl;
+		if (timer < 0)
+		{
+			std::cout << "yo" << std::endl;
+			Ogre::Vector3 offset;
+			offset.x = Ogre::Math::RangeRandom(0, 150);
+			offset.y = 0;
+			offset.z = Ogre::Math::RangeRandom(0, 150);
+			entity->engine->entityMgr->CreateEntityOfTypeAtPosition(ShellEnt, (PlayerEntity*)entity, target->position);
+			entity->engine->entityMgr->CreateEntityOfTypeAtPosition(ShellEnt, (PlayerEntity*)entity, target->position + offset);				entity->engine->entityMgr->CreateEntityOfTypeAtPosition(ShellEnt, (PlayerEntity*)entity, target->position - offset);
+			timer = 5;
+		}
+
+
+	}
+	else
+	{
+		Ogre::Vector3 loc = entity->position;
+		if (loc.x < target->position.x)
+		{
+			loc.x += 300;
+		}
+		else
+		{
+			loc.x -= 300;
+		}
+		if (loc.z < target->position.z)
+		{
+			loc.z += 300;
+		}
+		else
+		{
+			loc.z -= 300;
+		}
+		Command * newPos = new MoveTo(entity, loc);
+		Command * newFire = new FireBarrage(entity, target);
+		entity->aspects[3]->setCommand(newPos);
+		entity->aspects[3]->addCommand(newFire);
+	}
+
+}
+
+bool FireBarrage::done()
+{
+	return false;
+}
+
+
+
+
+
+
+
+
+
 
 

@@ -7,15 +7,17 @@
 
 #include <ProjectileEntity.h>
 
-ProjectileEntity::ProjectileEntity(Engine *engine, Ogre::Vector3 pos, Ogre::Vector3 target, int identity)
-	:BaseEntity(engine, pos, identity)	{
+ProjectileEntity::ProjectileEntity(Engine *engine, PlayerEntity *dad, Ogre::Vector3 target, int identity)
+	:BaseEntity(engine, dad->position, identity)	{
 	name = "Projectile";
+	parent = dad;
+	team = dad->team;
 	// TODO Auto-generated constructor stub
 
 }
 
 ProjectileEntity::~ProjectileEntity() {
-	// TODO Auto-generated destructor stub
+
 }
 
 void ProjectileEntity::Init(){
@@ -25,7 +27,7 @@ void ProjectileEntity::Init(){
 	ShellAspect * ShellPhx = new ShellAspect(this, myTarget);
 	aspects.push_back((Aspect*)ShellPhx);
 
-	this->sceneNode->scale(0.1,0.1,0.1);
+	this->sceneNode->scale(0.02,0.02,0.02);
 
 
 }
@@ -35,8 +37,8 @@ void ProjectileEntity::Init(){
 
 
 //-------------------------------------------------------------------------------------------------------
-Shell::Shell(Engine *engine, Ogre::Vector3 pos, Ogre::Vector3 target, int ident):
-	ProjectileEntity(engine, pos, target, ident){
+Shell::Shell(Engine *engine, PlayerEntity *dad, Ogre::Vector3 target, int ident):
+	ProjectileEntity(engine, dad, target, ident){
 
 	myTarget = target;
 	meshfilename = "sphere.mesh";

@@ -12,13 +12,13 @@
 #include <GfxMgr.h>
 #include <Utils.h>
 #include <UnitAI.h>
-#include <BaseEntity.h>
+
 
 EnemyEntity::EnemyEntity(Engine *engine, Ogre::Vector3 pos, int ident)
 :PlayerEntity(engine, pos, ident)	{
 
 name = "EnemyEntity";//meshfname + IntToString(identity);
-collisionRadius = 0;
+collisionRadius = 20;
 
 
 /*UnitAI * AI = new UnitAI(this);
@@ -28,7 +28,7 @@ aspects.push_back((Aspect*)AI);*/
 }
 
 EnemyEntity::~EnemyEntity(){
-
+	//BaseEntity::~BaseEntity();
 }
 
 void EnemyEntity::Init(){
@@ -53,6 +53,7 @@ Enemy::Enemy(Engine *engine, Ogre::Vector3 pos, int ident):
 	this->maxSpeed = 300.0f;//meters per second...
 	this->acceleration = 35.0f; // fast
 	this->turnRate = 50.0f;
+
 	std::cout << "Created: " << this->name << std::endl;
 }
 

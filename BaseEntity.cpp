@@ -38,16 +38,13 @@ BaseEntity::BaseEntity(Engine *engine, Ogre::Vector3 pos, int ident){
 	this->turnRate = 0;
 	this->desiredSpeed = this->speed = 0;
 	this->minSpeed = this->maxSpeed = 0;
-
-	shouldKill = false;
+	parent = 0;
+	team = 0;
+	isAlive = true;
 
 }
 
 BaseEntity::~BaseEntity(){
-	std::cout << "help2" << std::endl;
-	for(unsigned int i = 0; i < aspects.size(); i++){
-		//delete aspects[i];
-	}
 
 }
 
@@ -57,23 +54,33 @@ void BaseEntity::Init(){
 	ogreEntity = engine->gfxMgr->mSceneMgr->createEntity(meshfilename);
 	sceneNode = engine->gfxMgr->mSceneMgr->getRootSceneNode()->createChildSceneNode(position);
 	sceneNode->attachObject(ogreEntity);
-	this->soundFile = "Boat-Sound.wav";
+	this->soundFile = "";
 
 	//this->audioID = 0;
 }
 
 void BaseEntity::Tick(float dt){
-	for(unsigned int i = 0; i < aspects.size(); i++){
-		aspects[i]->Tick(dt);
+	if (isAlive){
+		//std::cout << this->name << std::endl;
+		for(unsigned int i = 0; i < aspects.size(); i++){
+			aspects[i]->Tick(dt);
+		}
 	}
 
+}
+
+void BaseEntity::Destroy(){
+	isAlive = false;
+	//aspects.clear;
+	position.y -= 1000;
+	this->sceneNode->setPosition(0, -1000 ,0);
 }
 
 //-------------------------------------------------------------------------------------------------------------------------------
 Rock::Rock(Engine *engine, Ogre::Vector3 pos, int ident):
 		BaseEntity(engine, pos, ident){
 
-	meshfilename = "sphere.mesh";
+	meshfilename = "cube.mesh";
 	entityType = RockEnt;
 	collisionRadius = 100;
 	//this->minSpeed = 0;

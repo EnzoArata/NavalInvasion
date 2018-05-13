@@ -86,6 +86,19 @@ public:
 
 };
 
+class FireBarrage: public Command
+{
+public:
+	FireBarrage(BaseEntity* ent, BaseEntity* targetEnt);
+	void init();
+	void tick(float dt);
+	bool done();
+	~FireBarrage();
+
+	BaseEntity* target;
+	float timer;
+};
+
 
 
 

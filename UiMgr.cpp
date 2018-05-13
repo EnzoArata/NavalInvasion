@@ -51,7 +51,7 @@ void UiMgr::UpdateInfo(BaseEntity* ent){
 void UiMgr::LoadLevel(){
 
 	mTrayMgr->showBackdrop("NAVALSTARTMENU");
-	mTrayMgr->createLabel(OgreBites::TL_CENTER, "MenuText", "PreAlpha_0.03 ", 300);
+	mTrayMgr->createLabel(OgreBites::TL_CENTER, "MenuText", "Alpha_0.053 ", 300);
 	mTrayMgr->createButton(OgreBites::TL_CENTER, "startButton", "Start Game!");
 	mTrayMgr->createButton(OgreBites::TL_CENTER, "quitButton", "Quit Game");
 
@@ -132,7 +132,7 @@ void UiMgr::buttonHit(OgreBites::Button *b){
         pos.x = 0;
         pos.y = 0;
         pos.z = -100;
-        engine->entityMgr->CreateEntityOfTypeAtPosition(ShipEnt,pos);
+        engine->entityMgr->CreateEntityOfTypeAtPosition(PlayerEnt,pos);
         return;
     }
     if(b->getName()=="startButton")
@@ -167,7 +167,7 @@ void UiMgr::itemSelected(OgreBites::SelectMenu *m){
     	engine->entityMgr->CreateEntityOfTypeAtPosition(RockEnt,pos);
     	break;
     case 2:
-    	engine->entityMgr->CreateEntityOfTypeAtPosition(ShipEnt,pos);
+    	engine->entityMgr->CreateEntityOfTypeAtPosition(PlayerEnt,pos);
     	break;
     case 3:
     	engine->entityMgr->CreateEntityOfTypeAtPosition(EnemyEnt,pos);
@@ -176,4 +176,8 @@ void UiMgr::itemSelected(OgreBites::SelectMenu *m){
     	break;
     }
 
+}
+
+void UiMgr::UpdateHealth(float currentHealth) {
+	pbar->setProgress(currentHealth / 100);
 }

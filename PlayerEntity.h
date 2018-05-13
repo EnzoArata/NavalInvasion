@@ -50,10 +50,18 @@ protected:
 
 };
 
-class Ship: public PlayerEntity {
+class PlayerShip: public PlayerEntity {
 public:
-	Ship(Engine *engine, Ogre::Vector3 pos, int identity);
-	virtual ~Ship();
+	PlayerShip(Engine *engine, Ogre::Vector3 pos, int identity);
+	virtual ~PlayerShip();
+
+};
+
+class AllySmall: public PlayerEntity {
+public:
+	AllySmall(Engine *engine, Ogre::Vector3 pos, int identity);
+	void Init();
+	virtual ~AllySmall();
 
 };
 

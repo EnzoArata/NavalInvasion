@@ -67,12 +67,15 @@ void EntityMgr::CreateEntityOfTypeAtPosition(EntityTypes entType, Ogre::Vector3 
 	case RockEnt:
 		ent = (BaseEntity *) ( new Rock(engine, pos, count++));
 		break;
-	case ShipEnt:
-		ent = (PlayerEntity *) ( new Ship(engine, pos, count++));
+	case PlayerEnt:
+		ent = (PlayerEntity *) ( new PlayerShip(engine, pos, count++));
 		break;
 	case EnemyEnt:
 		ent = (EnemyEntity *) ( new Enemy(engine, pos, count++));
 		break;
+	case AllySmallEnt:
+			ent = (PlayerEntity*) ( new AllySmall(engine, pos, count++));
+			break;
 	default:
 		ent = (BaseEntity *) ( new Rock(engine, pos, count++));
 		break;
@@ -108,15 +111,15 @@ void EntityMgr::CreateEntityOfTypeAtPosition(EntityTypes entType, Ogre::Vector3 
 
 }
 
-void EntityMgr::CreateEntityOfTypeAtPosition(EntityTypes entType, Ogre::Vector3 pos, Ogre::Vector3 target){
+void EntityMgr::CreateEntityOfTypeAtPosition(EntityTypes entType, PlayerEntity *dad, Ogre::Vector3 target){
 	BaseEntity * ent;
 	switch(entType){
 
 	case ShellEnt:
-		ent = (ProjectileEntity *) ( new Shell(engine, pos, target, count++));
+		ent = (ProjectileEntity *) ( new Shell(engine, dad, target, count++));
 		break;
 	default:
-		ent = (BaseEntity *) ( new Rock(engine, pos, count++));
+		ent = (BaseEntity *) ( new Rock(engine, dad->position, count++));
 		break;
 	}
 	ent->Init();
@@ -129,11 +132,6 @@ void EntityMgr::Tick(float dt){
 		if (entities[i]->isSelected){
 			engine->uiMgr->UpdateInfo(entities[i]);
 
-		}
-		if(entities[i]->shouldKill)
-		{
-			delete entities[i];
-			//entities.resize(entities.size()-1);
 		}
 	}
 }

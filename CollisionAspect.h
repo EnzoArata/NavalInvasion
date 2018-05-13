@@ -22,6 +22,8 @@ public:
 
 
 	void Tick(float dt);
+
+
 };
 
 #endif /* INC_COLLISIONASPECT_H_ */

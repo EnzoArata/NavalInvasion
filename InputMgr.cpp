@@ -353,9 +353,9 @@ void InputMgr::fireAt(const OIS::MouseEvent &me){
 		posUnderMouse = mouseRay.getPoint(result.second);
 		float dist = posUnderMouse.distance(engine->entityMgr->playerEntity->position);
 		std::cout << dist << std::endl;
-		if(dist < (250000/30))
+		if(dist < (300*300/engine->gameMgr->gravity))
 		{
-			engine->entityMgr->CreateEntityOfTypeAtPosition(ShellEnt, engine->entityMgr->playerEntity->position, posUnderMouse);
+			engine->entityMgr->CreateEntityOfTypeAtPosition(ShellEnt, engine->entityMgr->playerEntity, posUnderMouse);
 		}
 
 	}

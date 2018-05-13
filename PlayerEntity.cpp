@@ -22,6 +22,7 @@ PlayerEntity::PlayerEntity(Engine *engine, Ogre::Vector3 pos, int ident)
 	collisionRadius = 20;
 	currentHealth = 100;
 	CameraGimbal = 0;
+	team = 1;
 	/*UnitAI * AI = new UnitAI(this);
 	aspects.push_back((Aspect*)AI);*/
 
@@ -47,6 +48,8 @@ void PlayerEntity::Init(){
 
 	CameraGimbal = sceneNode->createChild(position+Ogre::Vector3(-500,200,0));
 
+	this->soundFile = "Boat-Sound.wav";
+
 
 
 }
@@ -62,10 +65,10 @@ void PlayerEntity::stopShip(){
 void PlayerEntity::respawn(){
 	position = spawnLocation;
 	desiredHeading = heading = 0;
-	currentHealth -= 10;
-	std::cout << currentHealth <<std::endl;
+	//currentHealth -= 10;
+	//std::cout << currentHealth <<std::endl;
 	//engine->uiMgr->pbar->setProgress(-1);
-	engine->uiMgr->pbar->setProgress(currentHealth/100);
+	//engine->uiMgr->pbar->setProgress(currentHealth/100);
 }
 
 /*void PlayerEntity::Tick(float dt)
@@ -74,11 +77,11 @@ void PlayerEntity::respawn(){
 }*/
 
 //-------------------------------------------------------------------------------------------------------------------------------
-Ship::Ship(Engine *engine, Ogre::Vector3 pos, int ident):
+PlayerShip::PlayerShip(Engine *engine, Ogre::Vector3 pos, int ident):
 		PlayerEntity(engine, pos, ident){
 
 	meshfilename = "ddg51.mesh";
-	entityType = ShipEnt;
+	entityType = PlayerEnt;
 	isSelected = true;
 	this->minSpeed = 0;
 	this->maxSpeed = 200.0f;//meters per second...
@@ -87,6 +90,39 @@ Ship::Ship(Engine *engine, Ogre::Vector3 pos, int ident):
 	std::cout << "Created: " << this->name << std::endl;
 }
 
-Ship::~Ship(){
+PlayerShip::~PlayerShip(){
 
 }
+
+AllySmall::AllySmall(Engine *engine, Ogre::Vector3 pos, int ident):
+		PlayerEntity(engine, pos, ident){
+
+	meshfilename = "cigarette.mesh";
+		entityType = EnemyEnt;
+		this->minSpeed = 0;
+		this->maxSpeed = 300.0f;//meters per second...
+		this->acceleration = 35.0f; // fast
+		this->turnRate = 50.0f;
+
+		std::cout << "Created: " << this->name << std::endl;
+}
+
+void AllySmall::Init()
+{
+
+	BaseEntity::Init();
+	Physics2D* phx = new Physics2D(this);
+	aspects.push_back((Aspect*) phx);
+	Renderable * renderable = new Renderable(this);
+	aspects.push_back((Aspect*)renderable);
+	CollisionAspect * collision = new CollisionAspect(this);
+	aspects.push_back((Aspect*)collision);
+	UnitAI * AI = new UnitAI(this);
+	aspects.push_back((Aspect*)AI);
+	engine->entityMgr->Allies.push_back(this);
+}
+
+AllySmall::~AllySmall(){
+
+}
+

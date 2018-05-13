@@ -42,7 +42,7 @@ public:
 	Ogre::Vector3 velocity;
 	bool isSelected;
 	bool didSelectSoundPlay;
-	bool shouldKill;
+	bool isAlive;
 
 	//sound
 	std::string soundFile;
@@ -54,11 +54,16 @@ public:
 
 	EntityTypes entityType;
 
+	BaseEntity *parent;
+
 	std::vector<Aspect* > aspects;
 
 	virtual void Init();
 
 	void Tick(float dt);
+	int team;
+
+	void Destroy();
 
 protected:
 

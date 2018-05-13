@@ -21,6 +21,7 @@ public:
   BaseEntity* selectedEntity;
   PlayerEntity* playerEntity;
   std::vector<EnemyEntity*> Enemies;
+  std::vector<AllySmall*> Allies;
   //FlyingEntity381* selectedFlyingEntity;
   int selectedEntityIndex;
 
@@ -28,7 +29,7 @@ public:
   //Ogre::SceneManager *sceneMgr;
 
   void CreateEntityOfTypeAtPosition(EntityTypes type, Ogre::Vector3 pos);
-  void CreateEntityOfTypeAtPosition(EntityTypes type, Ogre::Vector3 pos, Ogre::Vector3 target);
+  void CreateEntityOfTypeAtPosition(EntityTypes type, PlayerEntity *dad, Ogre::Vector3 target);
   void SelectNextEntity();
   void SetSelectedFlyingEntity();
   void Select(int index);

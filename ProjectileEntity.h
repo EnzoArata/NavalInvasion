@@ -16,7 +16,7 @@
 
 class ProjectileEntity : public BaseEntity{
 public:
-	ProjectileEntity(Engine *engine, Ogre::Vector3 pos, Ogre::Vector3 target, int identity);
+	ProjectileEntity(Engine *engine, PlayerEntity *dad, Ogre::Vector3 target, int identity);
 	virtual ~ProjectileEntity();
 	Ogre::Vector3 myTarget;
 	virtual void Init();
@@ -25,7 +25,7 @@ public:
 
 class Shell: public ProjectileEntity {
 public:
-	Shell(Engine *engine, Ogre::Vector3 pos ,  Ogre::Vector3 target, int identity);
+	Shell(Engine *engine, PlayerEntity *dad ,  Ogre::Vector3 target, int identity);
 	virtual ~Shell();
 
 

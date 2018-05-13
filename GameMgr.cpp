@@ -27,6 +27,7 @@ GameMgr::GameMgr(Engine *engine):
 	cameraPitchNode(0)
 {
 	levelSelect = 0;
+	gravity = 30;
 }
 
 GameMgr::~GameMgr() {
@@ -76,26 +77,42 @@ void GameMgr::MakeEntities(){
 	Ogre::Vector3 pos = Ogre::Vector3(-500, 0, 0);
 	engine->entityMgr->CreateEntityOfTypeAtPosition(RockEnt, pos);
 		pos.x += 500;
-	engine->entityMgr->CreateEntityOfTypeAtPosition(ShipEnt, pos);
+	engine->entityMgr->CreateEntityOfTypeAtPosition(PlayerEnt, pos);
 		pos.x += 500;
 		//pos.z -= 500;
-	engine->entityMgr->CreateEntityOfTypeAtPosition(EnemyEnt, pos);
+	engine->entityMgr->CreateEntityOfTypeAtPosition(AllySmallEnt, pos);
+		pos.x += 500;
+	engine->entityMgr->CreateEntityOfTypeAtPosition(AllySmallEnt, pos);
+		pos.x += 500;
+	engine->entityMgr->CreateEntityOfTypeAtPosition(AllySmallEnt, pos);
+		pos.x += 500;
+	engine->entityMgr->CreateEntityOfTypeAtPosition(AllySmallEnt, pos);
 		pos.x += 500;
 	engine->entityMgr->CreateEntityOfTypeAtPosition(EnemyEnt, pos);
-		pos.x += 500;
+		pos.z += 500;
 	engine->entityMgr->CreateEntityOfTypeAtPosition(EnemyEnt, pos);
-		pos.x += 500;
+		pos.z += 500;
 	engine->entityMgr->CreateEntityOfTypeAtPosition(EnemyEnt, pos);
-		pos.x += 500;
+		pos.z += 500;
+	engine->entityMgr->CreateEntityOfTypeAtPosition(EnemyEnt, pos);
+		pos.z += 500;
 
-	Command * escorto = new Escort(engine->entityMgr->Enemies[0], engine->entityMgr->playerEntity,Ogre::Vector3(-200, 0, 200));
-	engine->entityMgr->Enemies[0]->aspects[3]->setCommand(escorto);
-	escorto = new Escort(engine->entityMgr->Enemies[1], engine->entityMgr->playerEntity,Ogre::Vector3(-100, 0, 100));
-	engine->entityMgr->Enemies[1]->aspects[3]->setCommand(escorto);
-	escorto = new Escort(engine->entityMgr->Enemies[2], engine->entityMgr->playerEntity,Ogre::Vector3(-100, 0, -100));
-	engine->entityMgr->Enemies[2]->aspects[3]->setCommand(escorto);
-	escorto = new Escort(engine->entityMgr->Enemies[3], engine->entityMgr->playerEntity,Ogre::Vector3(-200, 0, -200));
-	engine->entityMgr->Enemies[3]->aspects[3]->setCommand(escorto);
+	Command * escorto = new Escort(engine->entityMgr->Allies[0], engine->entityMgr->playerEntity,Ogre::Vector3(-200, 0, 200));
+	Command * fireo = new FireBarrage(engine->entityMgr->Enemies[0], engine->entityMgr->playerEntity);
+	engine->entityMgr->Allies[0]->aspects[3]->setCommand(escorto);
+	escorto = new Escort(engine->entityMgr->Allies[1], engine->entityMgr->playerEntity,Ogre::Vector3(-100, 0, 100));
+	engine->entityMgr->Allies[1]->aspects[3]->setCommand(escorto);
+	escorto = new Escort(engine->entityMgr->Allies[2], engine->entityMgr->playerEntity,Ogre::Vector3(-100, 0, -100));
+	engine->entityMgr->Allies[2]->aspects[3]->setCommand(escorto);
+	escorto = new Escort(engine->entityMgr->Allies[3], engine->entityMgr->playerEntity,Ogre::Vector3(-200, 0, -200));
+	engine->entityMgr->Enemies[0]->aspects[3]->setCommand(fireo);
+	fireo = new FireBarrage(engine->entityMgr->Enemies[1], engine->entityMgr->playerEntity);
+	engine->entityMgr->Enemies[1]->aspects[3]->setCommand(fireo);
+	fireo = new FireBarrage(engine->entityMgr->Enemies[2], engine->entityMgr->playerEntity);
+	engine->entityMgr->Enemies[2]->aspects[3]->setCommand(fireo);
+	fireo = new FireBarrage(engine->entityMgr->Enemies[3], engine->entityMgr->playerEntity);
+	engine->entityMgr->Enemies[3]->aspects[3]->setCommand(fireo);
+	//engine->entityMgr->Enemies[3]->aspects[3]->setCommand(escorto);
 	/*engine->entityMgr->CreateEntityOfTypeAtPosition(DDG51Type, pos);
 	pos.x += 500;
 	engine->entityMgr->CreateEntityOfTypeAtPosition(CarrierType, pos);

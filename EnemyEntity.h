@@ -10,6 +10,7 @@
 
 #include <BaseEntity.h>
 #include <PlayerEntity.h>
+#include <BaseEntity.h>
 
 
 class EnemyEntity : public PlayerEntity{

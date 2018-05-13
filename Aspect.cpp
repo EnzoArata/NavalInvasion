@@ -15,7 +15,7 @@ Aspect::Aspect(BaseEntity *ent){
 }
 
 Aspect::~Aspect(){
-
+	delete entity;
 }
 
 void Aspect::addCommand(Command *c){

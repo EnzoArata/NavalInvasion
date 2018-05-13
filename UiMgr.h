@@ -45,6 +45,7 @@ public:
 	virtual void LoadLevel();
 	virtual void LoadLevel1();
 	virtual void stop();
+	void UpdateHealth(float currentHealth);
 	void UpdateInfo(BaseEntity* ent);
 
 	OgreBites::InputContext mInputContext;

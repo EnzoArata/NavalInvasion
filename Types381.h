@@ -3,10 +3,11 @@
 
 enum EntityTypes {
 	RockEnt,
-	ShipEnt,
+	ShellEnt,
 	None,
 	EnemyEnt,
-	ShellEnt,
+	PlayerEnt,
+	AllySmallEnt,
 /*	DDG51Type,
 	CarrierType,
 	SpeedBoatType,
@@ -21,6 +22,7 @@ enum COMMAND_TYPE {
 	Inter,
 	Clean,
 	EscortType,
+	BarrageType,
 };
 
 

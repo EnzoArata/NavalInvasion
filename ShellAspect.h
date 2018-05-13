@@ -10,6 +10,7 @@
 
 #include <Aspect.h>
 #include <BaseEntity.h>
+#include <GameMgr.h>
 
 class ShellAspect : public Aspect
 {
