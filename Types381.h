@@ -6,6 +6,7 @@ enum EntityTypes {
 	ShipEnt,
 	None,
 	EnemyEnt,
+	ShellEnt,
 /*	DDG51Type,
 	CarrierType,
 	SpeedBoatType,

@@ -8,6 +8,7 @@
 
 #include <Engine.h>
 #include <GfxMgr.h>
+#include <EntityMgr.h>
 #include <InputMgr.h>
 #include <EntityMgr.h>
 #include <GameMgr.h>
@@ -26,6 +27,7 @@ InputMgr::InputMgr(Engine *engine) : Mgr(engine), OIS::KeyListener(), OIS::Mouse
 	deltaDesiredSpeed = 10.0f;
 	deltaDesiredHeading = 10.0f;
 	deltaDesiredAltitude = 20;
+	MouseRotation = false;
 	this->selectionDistanceSquaredThreshold = 10000;
 }
 
@@ -107,6 +109,10 @@ void InputMgr::UpdateCamera(float dt){
 	float rotate = 0.1f;
 	float multiplier =1;
 
+	if (mKeyboard->isKeyDown(OIS::KC_M)){
+		CameraFollow = true;
+	}
+
 	 Ogre::Vector3 dirVec = Ogre::Vector3::ZERO;
 	 if (mKeyboard->isKeyDown(OIS::KC_LSHIFT))
 		 multiplier = 2;
@@ -133,20 +139,37 @@ void InputMgr::UpdateCamera(float dt){
 
 	      dirVec.x += move * multiplier;
 	  }
-	  if (mKeyboard->isKeyDown(OIS::KC_Q))
-	  	   engine->gameMgr->cameraNode->yaw(Ogre::Degree(5 * rotate * multiplier));
 
-	  if (mKeyboard->isKeyDown(OIS::KC_E))
-	  	  	   engine->gameMgr->cameraNode->yaw(Ogre::Degree(-5 * rotate * multiplier));
 
-	  if (mKeyboard->isKeyDown(OIS::KC_Z))
-	 	  	   engine->gameMgr->cameraPitchNode->pitch(Ogre::Degree(5 * rotate * multiplier));
+	  if (!MouseRotation){
+		  if (mKeyboard->isKeyDown(OIS::KC_Q))
+			   engine->gameMgr->cameraNode->yaw(Ogre::Degree(5 * rotate * multiplier));
 
-	  if (mKeyboard->isKeyDown(OIS::KC_X))
-			   engine->gameMgr->cameraPitchNode->pitch(Ogre::Degree(-5 * rotate * multiplier));
+		  if (mKeyboard->isKeyDown(OIS::KC_E))
+				   engine->gameMgr->cameraNode->yaw(Ogre::Degree(-5 * rotate * multiplier));
 
-	  if ((engine->gameMgr->cameraNode->getPosition().y + dirVec.y * dt)< 5){
-		  dirVec.y = 0;
+		  if (mKeyboard->isKeyDown(OIS::KC_Z))
+				   engine->gameMgr->cameraPitchNode->pitch(Ogre::Degree(5 * rotate * multiplier));
+
+		  if (mKeyboard->isKeyDown(OIS::KC_X))
+				   engine->gameMgr->cameraPitchNode->pitch(Ogre::Degree(-5 * rotate * multiplier));
+
+		  if ((engine->gameMgr->cameraNode->getPosition().y + dirVec.y * dt)< 5){
+			  dirVec.y = 0;
+		  }
+	  } else {
+		  engine->gameMgr->cameraNode->yaw(Ogre::Degree(-rotate*mRot.x * multiplier));
+		  engine->gameMgr->cameraPitchNode->pitch(Ogre::Degree(-rotate*mRot.y * multiplier));
+		  mRot.x = 0;
+		  mRot.y = 0;
+	  }
+	  if (dirVec != Ogre::Vector3::ZERO){
+		  CameraFollow = false;
+	  }
+	  if (CameraFollow){
+			engine->gameMgr->cameraNode->setPosition(engine->entityMgr->playerEntity->CameraGimbal->_getDerivedPosition());
+			engine->gameMgr->cameraNode->resetOrientation();
+			engine->gameMgr->cameraNode->yaw(Ogre::Degree(-engine->entityMgr->playerEntity->heading-90));
 	  }
 
 	  engine->gameMgr->cameraNode->translate(dirVec * dt, Ogre::Node::TS_LOCAL);
@@ -257,6 +280,8 @@ bool InputMgr::keyReleased(const OIS::KeyEvent& ke){
 
 bool InputMgr::mouseMoved(const OIS::MouseEvent& me){
 	if (engine->uiMgr->mTrayMgr->injectMouseMove(me)) return true;
+	mRot.x = me.state.X.rel;
+	mRot.y = me.state.Y.rel;
 	return true;
 }
 
@@ -265,19 +290,30 @@ bool InputMgr::mousePressed(const OIS::MouseEvent& me, OIS::MouseButtonID mid){
 	if (engine->uiMgr->mTrayMgr->injectMouseDown(me, mid)) return true;
 	if(OIS::MB_Left == mid){
 		std::cout << "Left mouse press" << std::endl;
-		HandleMouseSelection(me);
+		fireAt(me);
 	}
 	if(OIS::MB_Right == mid){
 
 		std::cout << "Right mouse press" << std::endl;
 		positionSelection(me);
 	}
+	if(OIS::MB_Middle == mid){
+
+		std::cout << "Middle mouse press" << std::endl;
+		MouseRotation = true;
+	}
 
 	return true;
 }
 
 bool InputMgr::mouseReleased(const OIS::MouseEvent& me, OIS::MouseButtonID mid){
+	if(OIS::MB_Middle == mid){
+
+		std::cout << "Middle mouse released" << std::endl;
+		MouseRotation = false;
+	}
 	if (engine->uiMgr->mTrayMgr->injectMouseUp(me, mid)) return true;
+
 	return true;
 }
 
@@ -307,26 +343,25 @@ void InputMgr::positionSelection(const OIS::MouseEvent& me) {
 }
 
 //check if ms.width and ms.height need to be adjusted when things change
-void InputMgr::HandleMouseSelection(const OIS::MouseEvent &me){
-	/*const OIS::MouseState &ms = mMouse->getMouseState();
+void InputMgr::fireAt(const OIS::MouseEvent &me){
+	const OIS::MouseState &ms = mMouse->getMouseState();
 	int index = -1;
+	Ogre::Vector3 posUnderMouse;
 	Ogre::Ray mouseRay = engine->gfxMgr->mCamera->getCameraToViewportRay(ms.X.abs/(float) ms.width, ms.Y.abs/(float)ms.height);
 	std::pair<bool, float> result = mouseRay.intersects(engine->gfxMgr->oceanSurface);
 	if(result.first){
-		Ogre::Vector3 posUnderMouse = mouseRay.getPoint(result.second);
-		float minDistanceSquared = FLT_MAX;
-		float distanceSquared; //because squareroot is expensive
-		for(unsigned int i = 0; i < engine->entityMgr->entities.size(); i++){
-			distanceSquared = posUnderMouse.squaredDistance(engine->entityMgr->entities[i]->position);
-			if (distanceSquared < selectionDistanceSquaredThreshold){
-				if (distanceSquared < minDistanceSquared){
-					index = i;
-					minDistanceSquared = distanceSquared;
-				}
-			}
+		posUnderMouse = mouseRay.getPoint(result.second);
+		float dist = posUnderMouse.distance(engine->entityMgr->playerEntity->position);
+		std::cout << dist << std::endl;
+		if(dist < (250000/30))
+		{
+			engine->entityMgr->CreateEntityOfTypeAtPosition(ShellEnt, engine->entityMgr->playerEntity->position, posUnderMouse);
 		}
-		engine->entityMgr->Select(index);
-	}*/
+
+	}
+
 }
+
+
 
 

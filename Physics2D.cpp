@@ -23,12 +23,22 @@ Physics2D::~Physics2D(){
 
 void Physics2D::Tick(float dt){
 
+	if(entity->desiredHeading > entity->heading){
+		if(entity->desiredHeading - entity->heading > 90 && entity->desiredHeading - entity->heading < 270){
+			entity->desiredSpeed = 0;//entity->desiredSpeed/2;
+		}
+	} else if (entity->desiredHeading < entity->heading){
+		if(entity->desiredHeading - entity->heading > -270 && entity->desiredHeading - entity->heading < -90){
+			entity->desiredSpeed = 0;//entity->desiredSpeed/2;
+		}
+	}
 
 	if(entity->desiredSpeed > entity->speed){
 		entity->speed += entity->acceleration * dt;
 	} else if (entity->desiredSpeed < entity->speed){
-		entity->speed -= entity->acceleration * dt;
+		entity->speed -= 3 * entity->acceleration * dt;
 	}
+
 	entity->speed = Clamp(entity->minSpeed, entity->maxSpeed, entity->speed);
 
 	//When I try to go from a heading of 350 to a heading of 10,
@@ -49,7 +59,13 @@ void Physics2D::Tick(float dt){
 			entity->heading -= entity->turnRate * dt;;
 	}
 
+
 	entity->heading = FixAngle(entity->heading);
+	if((entity->heading+(entity->turnRate * dt) > entity->desiredHeading && entity->heading < entity->desiredHeading)
+	|| (entity->heading-(entity->turnRate * dt) < entity->desiredHeading && entity->heading > entity->desiredHeading))
+	{
+		entity->heading = entity->desiredHeading;
+	}
 	//std::cout<< entity->name << " is facing " << entity->heading << " and heading to " << entity->desiredHeading << std::endl;
 	//Now do the trig
 	entity->velocity.y = 0.0f; // just to be safe, we do not want ships in the air.

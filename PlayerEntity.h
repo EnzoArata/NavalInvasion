@@ -13,7 +13,6 @@
 #include <OgreVector3.h>
 #include <Aspect.h>
 #include <Types381.h>
-#include <Aspect.h>
 #include <BaseEntity.h>
 #include <Engine.h>
 #include <Utils.h>
@@ -26,6 +25,7 @@ public:
 	virtual ~PlayerEntity();
 
 	float currentHealth;
+	Ogre::Node* CameraGimbal;
 	//bool isSelected;
 	//float desiredHeading, desiredSpeed;
 	//float heading, speed;
@@ -39,6 +39,7 @@ public:
 	virtual void Init();
 	virtual void stopShip();
 	virtual void respawn();
+
 	//void Tick(float dt);
 
 protected:
@@ -55,5 +56,7 @@ public:
 	virtual ~Ship();
 
 };
+
+
 
 #endif /* INC_PLAYERENTITY_H_ */

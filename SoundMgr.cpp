@@ -102,7 +102,7 @@ void SoundMgr::initialize(void){
 
 	unsigned int sid;
         //background music
-	std::string filename = "data/watercraft/sounds/backgroundMusic.wav";
+	std::string filename = "data/watercraft/sounds/WarMusic.wav";
 	if (this->reserveAudio(filename, true, sid)){
 		std::cout << "background music loaded" << std::endl;
                 backgroundMusicSource = sourceInfo[sid].source;
@@ -128,8 +128,8 @@ bool SoundMgr::initWatercraftSounds(){
         //registering all sounds
 		std::string selectionFilename = "data/watercraft/sounds/takeYourOrder.wav";
         std::string selection2Filename = "data/watercraft/sounds/GoodDay.wav";
-        //std::string createShipFilename = "data/watercraft/sounds/boatMoving.wav";
-        //std::string createBuildingFilename = "data/watercraft/sounds/clong.wav";
+        std::string createShipFilename = "data/watercraft/sounds/boatMoving.wav";
+        std::string createBuildingFilename = "data/watercraft/sounds/clong.wav";
         for(unsigned int i=0; i<engine->entityMgr->entities.size();i++)//std::list<BaseEntity *>::const_iterator et = engine->entityMgr->entities[0]; et != engine->entityMgr->entities.size(); ++et)
         	{
             //this->registerBattleSound(et, battleFilename);

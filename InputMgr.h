@@ -12,7 +12,7 @@
 #include <OISInputManager.h>
 #include <OISKeyboard.h>
 #include <OISMouse.h>
-
+#include <OgreSceneManager.h>
 #  include <SdkTrays.h>
 #  include <SdkCameraMan.h>
 #include <Mgr.h>
@@ -39,6 +39,9 @@ public:
 	OIS::InputManager* mInputMgr;
 	OIS::Keyboard* mKeyboard;
 	OIS::Mouse* mMouse;
+	Ogre::Vector2 mRot;
+	bool MouseRotation;
+	bool CameraFollow;
 
 
 
@@ -57,7 +60,8 @@ public:
 	void UpdateVelocityAndSelection(float dt);
 
 	void positionSelection(const OIS::MouseEvent& me);
-	void HandleMouseSelection(const OIS::MouseEvent& me);
+	void fireAt(const OIS::MouseEvent& me);
+	//void PitchCamera(const OIS::MouseEvent& me);
 	float selectionDistanceSquaredThreshold;
 
 

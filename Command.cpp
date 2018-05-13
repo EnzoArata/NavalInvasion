@@ -59,9 +59,10 @@ bool MoveTo::done(){
 
 	if (entity->position.squaredDistance(targetLocation) <= MOVE_DISTANCE_THRESHOLD)
 	{
-		entity->velocity = Ogre::Vector3::ZERO;
-		entity->desiredSpeed = entity->speed = 0;
-		entity->desiredHeading = entity->heading;
+
+		//entity->velocity = Ogre::Vector3::ZERO;
+		entity->desiredSpeed = 0;
+		//entity->desiredHeading = entity->heading;
 
 		return true;
 	}
@@ -137,7 +138,8 @@ Escort::Escort(BaseEntity *ent, BaseEntity * targetEnt, Ogre::Vector3 offset)
 :Command(ent, EscortType)
 {
 	target = targetEnt;
-	targetOffset = offset;
+	targetOffset = target->sceneNode->createChildSceneNode(target->position+offset);
+	//targetOffset->_getDerivedPosition()
 }
 
 void Escort::init()
@@ -148,12 +150,12 @@ void Escort::init()
 void Escort::tick(float dt)
 {
 
-	Ogre::Vector3 diff = target->position - entity->position + targetOffset;
+	Ogre::Vector3 diff = targetOffset->_getDerivedPosition() - entity->position;
 	//std::cout << target->position << std::endl;
 	entity->desiredHeading =( std::atan2(diff.z, diff.x)* 180/3.14);
 	entity->desiredSpeed = entity->maxSpeed;
 	//std::cout << entity->desiredHeading << "," << entity->heading << std::endl;
-	if (entity->position.squaredDistance(target->position+targetOffset) <= 50*50)
+	if (entity->position.squaredDistance(targetOffset->_getDerivedPosition()) <= 25*25)
 	{
 		entity->velocity = target->velocity;
 		entity->desiredSpeed = entity->speed = target->speed;

@@ -39,9 +39,15 @@ BaseEntity::BaseEntity(Engine *engine, Ogre::Vector3 pos, int ident){
 	this->desiredSpeed = this->speed = 0;
 	this->minSpeed = this->maxSpeed = 0;
 
+	shouldKill = false;
+
 }
 
 BaseEntity::~BaseEntity(){
+	std::cout << "help2" << std::endl;
+	for(unsigned int i = 0; i < aspects.size(); i++){
+		//delete aspects[i];
+	}
 
 }
 
@@ -60,6 +66,7 @@ void BaseEntity::Tick(float dt){
 	for(unsigned int i = 0; i < aspects.size(); i++){
 		aspects[i]->Tick(dt);
 	}
+
 }
 
 //-------------------------------------------------------------------------------------------------------------------------------

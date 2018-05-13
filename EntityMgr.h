@@ -6,6 +6,7 @@
 #include <BaseEntity.h>
 #include <PlayerEntity.h>
 #include <EnemyEntity.h>
+#include <ProjectileEntity.h>
 //#include <FlyingEntity381.h>
 //#include <Types381.h>
 
@@ -27,6 +28,7 @@ public:
   //Ogre::SceneManager *sceneMgr;
 
   void CreateEntityOfTypeAtPosition(EntityTypes type, Ogre::Vector3 pos);
+  void CreateEntityOfTypeAtPosition(EntityTypes type, Ogre::Vector3 pos, Ogre::Vector3 target);
   void SelectNextEntity();
   void SetSelectedFlyingEntity();
   void Select(int index);

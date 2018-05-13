@@ -81,7 +81,7 @@ public:
 	~Escort();
 
 	BaseEntity *target;
-	Ogre::Vector3 targetOffset;
+	Ogre::SceneNode* targetOffset;
 
 
 };

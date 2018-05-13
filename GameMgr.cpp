@@ -56,6 +56,7 @@ void GameMgr::LoadLevel1(){
 		Ogre::Light* light = engine->gfxMgr->mSceneMgr->createLight("MainLight");
 		light->setPosition(20.0, 80.0, 50.0);
 
+
 		// a fixed point in the ocean so you can see relative motion
 
 		/*Ogre::Entity* ogreEntityFixed = engine->gfxMgr->mSceneMgr->createEntity("robot.mesh");
@@ -84,13 +85,17 @@ void GameMgr::MakeEntities(){
 		pos.x += 500;
 	engine->entityMgr->CreateEntityOfTypeAtPosition(EnemyEnt, pos);
 		pos.x += 500;
+	engine->entityMgr->CreateEntityOfTypeAtPosition(EnemyEnt, pos);
+		pos.x += 500;
 
-	Command * escorto = new Escort(engine->entityMgr->Enemies[0], engine->entityMgr->playerEntity,Ogre::Vector3(200, 0, 0));
+	Command * escorto = new Escort(engine->entityMgr->Enemies[0], engine->entityMgr->playerEntity,Ogre::Vector3(-200, 0, 200));
 	engine->entityMgr->Enemies[0]->aspects[3]->setCommand(escorto);
-	escorto = new Escort(engine->entityMgr->Enemies[1], engine->entityMgr->playerEntity,Ogre::Vector3(-200, 0, 0));
+	escorto = new Escort(engine->entityMgr->Enemies[1], engine->entityMgr->playerEntity,Ogre::Vector3(-100, 0, 100));
 	engine->entityMgr->Enemies[1]->aspects[3]->setCommand(escorto);
-	escorto = new Escort(engine->entityMgr->Enemies[2], engine->entityMgr->playerEntity,Ogre::Vector3(200, 0, 200));
+	escorto = new Escort(engine->entityMgr->Enemies[2], engine->entityMgr->playerEntity,Ogre::Vector3(-100, 0, -100));
 	engine->entityMgr->Enemies[2]->aspects[3]->setCommand(escorto);
+	escorto = new Escort(engine->entityMgr->Enemies[3], engine->entityMgr->playerEntity,Ogre::Vector3(-200, 0, -200));
+	engine->entityMgr->Enemies[3]->aspects[3]->setCommand(escorto);
 	/*engine->entityMgr->CreateEntityOfTypeAtPosition(DDG51Type, pos);
 	pos.x += 500;
 	engine->entityMgr->CreateEntityOfTypeAtPosition(CarrierType, pos);

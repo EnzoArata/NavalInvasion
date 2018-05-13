@@ -50,9 +50,9 @@ Enemy::Enemy(Engine *engine, Ogre::Vector3 pos, int ident):
 	meshfilename = "cigarette.mesh";
 	entityType = EnemyEnt;
 	this->minSpeed = 0;
-	this->maxSpeed = 80.0f;//meters per second...
-	this->acceleration = 4.0f; // fast
-	this->turnRate = 25.0f; //4 degrees per second
+	this->maxSpeed = 300.0f;//meters per second...
+	this->acceleration = 35.0f; // fast
+	this->turnRate = 50.0f;
 	std::cout << "Created: " << this->name << std::endl;
 }
 

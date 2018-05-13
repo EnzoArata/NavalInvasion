@@ -12,6 +12,7 @@
 #include <EntityMgr.h>
 #include <Types381.h>
 #include <GameMgr.h>
+#include <Utils.h>
 
 UiMgr::UiMgr(Engine* eng): Mgr(eng){
 	// Initialize the OverlaySystem (changed for Ogre 1.9)
@@ -40,10 +41,17 @@ void UiMgr::stop(){
 
 }
 
+void UiMgr::UpdateInfo(BaseEntity* ent){
+	LabelName->setCaption(ent->name);
+	LabelSpeed->setCaption(IntToString(ent->speed));
+	LabelHeading->setCaption(IntToString(ent->heading));
+	//mTrayMgr->
+}
+
 void UiMgr::LoadLevel(){
 
-	mTrayMgr->showBackdrop("NAVALSTART");
-	mTrayMgr->createLabel(OgreBites::TL_CENTER, "MenuText", "Naval Invasion Version 0.01 ", 300);
+	mTrayMgr->showBackdrop("NAVALSTARTMENU");
+	mTrayMgr->createLabel(OgreBites::TL_CENTER, "MenuText", "PreAlpha_0.03 ", 300);
 	mTrayMgr->createButton(OgreBites::TL_CENTER, "startButton", "Start Game!");
 	mTrayMgr->createButton(OgreBites::TL_CENTER, "quitButton", "Quit Game");
 
@@ -65,7 +73,10 @@ void UiMgr::LoadLevel1(){
 
 	mTrayMgr->showBackdrop("ECSLENT/UI");
 
-	//mLabel = mTrayMgr->createLabel(OgreBites::TL_LEFT,"MyLabel","Label!",250);
+	LabelName = mTrayMgr->createLabel(OgreBites::TL_BOTTOMLEFT,"MyName","",250);
+	LabelSpeed = mTrayMgr->createLabel(OgreBites::TL_BOTTOMLEFT,"MySpeed","",250);
+	LabelHeading = mTrayMgr->createLabel(OgreBites::TL_BOTTOMLEFT,"MyHeading","",250);
+	LabelPosition = mTrayMgr->createLabel(OgreBites::TL_BOTTOMLEFT,"MyPosition","",250);
 
 	//OgreBites::ProgressBar * pbar;
 	pbar = mTrayMgr->createProgressBar(OgreBites::TL_TOP,"HealthBar", "Health", 300, 200);

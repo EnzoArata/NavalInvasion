@@ -6,6 +6,7 @@
  */
 
 #include <EntityMgr.h>
+#include <UiMgr.h>
 #include <Engine.h>
 
 EntityMgr::EntityMgr(Engine *eng): Mgr(eng){
@@ -107,8 +108,32 @@ void EntityMgr::CreateEntityOfTypeAtPosition(EntityTypes entType, Ogre::Vector3 
 
 }
 
+void EntityMgr::CreateEntityOfTypeAtPosition(EntityTypes entType, Ogre::Vector3 pos, Ogre::Vector3 target){
+	BaseEntity * ent;
+	switch(entType){
+
+	case ShellEnt:
+		ent = (ProjectileEntity *) ( new Shell(engine, pos, target, count++));
+		break;
+	default:
+		ent = (BaseEntity *) ( new Rock(engine, pos, count++));
+		break;
+	}
+	ent->Init();
+	entities.push_back(ent);
+}
+
 void EntityMgr::Tick(float dt){
 	for(int i = count - 1; i >= 0; i--){
 		entities[i]->Tick(dt);
+		if (entities[i]->isSelected){
+			engine->uiMgr->UpdateInfo(entities[i]);
+
+		}
+		if(entities[i]->shouldKill)
+		{
+			delete entities[i];
+			//entities.resize(entities.size()-1);
+		}
 	}
 }

@@ -14,6 +14,7 @@
 #include <OISKeyboard.h>
 #include <OISMouse.h>
 #include <Mgr.h>
+#include <BaseEntity.h>
 
 #include <SdkTrays.h>
 
@@ -44,11 +45,15 @@ public:
 	virtual void LoadLevel();
 	virtual void LoadLevel1();
 	virtual void stop();
+	void UpdateInfo(BaseEntity* ent);
 
 	OgreBites::InputContext mInputContext;
 	OgreBites::SdkTrayManager* mTrayMgr;
 	Ogre::OverlaySystem* mOverlaySystem;
-	OgreBites::Label *mLabel;
+	OgreBites::Label* LabelName;
+	OgreBites::Label* LabelSpeed;
+	OgreBites::Label* LabelHeading;
+	OgreBites::Label* LabelPosition;
 	OgreBites::ProgressBar * pbar;
 };
 

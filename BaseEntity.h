@@ -42,6 +42,7 @@ public:
 	Ogre::Vector3 velocity;
 	bool isSelected;
 	bool didSelectSoundPlay;
+	bool shouldKill;
 
 	//sound
 	std::string soundFile;

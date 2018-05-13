@@ -21,6 +21,7 @@ PlayerEntity::PlayerEntity(Engine *engine, Ogre::Vector3 pos, int ident)
 	name = "PlayerEntity";//meshfname + IntToString(identity);
 	collisionRadius = 20;
 	currentHealth = 100;
+	CameraGimbal = 0;
 	/*UnitAI * AI = new UnitAI(this);
 	aspects.push_back((Aspect*)AI);*/
 
@@ -44,6 +45,8 @@ void PlayerEntity::Init(){
 	UnitAI * AI = new UnitAI(this);
 	aspects.push_back((Aspect*)AI);
 
+	CameraGimbal = sceneNode->createChild(position+Ogre::Vector3(-500,200,0));
+
 
 
 }
@@ -59,8 +62,10 @@ void PlayerEntity::stopShip(){
 void PlayerEntity::respawn(){
 	position = spawnLocation;
 	desiredHeading = heading = 0;
-	currentHealth =- 10;
-	engine->uiMgr->pbar->setProgress(currentHealth);
+	currentHealth -= 10;
+	std::cout << currentHealth <<std::endl;
+	//engine->uiMgr->pbar->setProgress(-1);
+	engine->uiMgr->pbar->setProgress(currentHealth/100);
 }
 
 /*void PlayerEntity::Tick(float dt)
@@ -76,9 +81,9 @@ Ship::Ship(Engine *engine, Ogre::Vector3 pos, int ident):
 	entityType = ShipEnt;
 	isSelected = true;
 	this->minSpeed = 0;
-	this->maxSpeed = 64.0f;//meters per second...
-	this->acceleration = 5.0f; // fast
-	this->turnRate = 20.0f; //4 degrees per second
+	this->maxSpeed = 200.0f;//meters per second...
+	this->acceleration = 20.0f; // fast
+	this->turnRate = 20.0f; //
 	std::cout << "Created: " << this->name << std::endl;
 }
 

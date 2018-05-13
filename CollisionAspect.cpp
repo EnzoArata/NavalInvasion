@@ -16,6 +16,7 @@ CollisionAspect::CollisionAspect(PlayerEntity *ent)
 
 }
 
+
 CollisionAspect::~CollisionAspect() {
 	// TODO Auto-generated destructor stub
 }
